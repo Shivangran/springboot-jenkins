@@ -1,8 +1,9 @@
 pipeline {
-    agent any
-
-    tools {
-        jdk 'jdk25'
+    agent {
+        docker {
+            image 'maven:3.9.9-eclipse-temurin-25'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     stages {
@@ -14,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'chmod +x mvnw'
+                sh 'chmod +x mvnw || true'
                 sh './mvnw clean package -DskipTests'
             }
         }
@@ -28,7 +29,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build successful!'
+            echo '✅ Build successful with Java 25!'
         }
         failure {
             echo '❌ Build failed.'
