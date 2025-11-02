@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'jdk25'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -24,7 +28,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build successful! Jar file created.'
+            echo '✅ Build successful!'
         }
         failure {
             echo '❌ Build failed.'
